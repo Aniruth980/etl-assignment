@@ -8,15 +8,15 @@ def etl_sql(db_path, output_path):
             c.customer_id AS customer,
             c.age AS age,
             i.item_name AS item,
-            SUM(oi.quantity) AS quantity
+            SUM(o.quantity) AS quantity
         FROM customers c
-        JOIN orders o ON c.customer_id = o.customer_id
-        JOIN order_items oi ON o.order_id = oi.order_id
-        JOIN items i ON oi.item_id = i.item_id
+        JOIN sales s ON c.customer_id = s.customer_id
+        JOIN orders o ON s.sales_id = o.sales_id
+        JOIN items i ON o.item_id = i.item_id
         WHERE c.age BETWEEN 18 AND 35
-          AND oi.quantity IS NOT NULL
+          AND o.quantity IS NOT NULL
         GROUP BY c.customer_id, i.item_name
-        HAVING SUM(oi.quantity) > 0
+        HAVING SUM(o.quantity) > 0
         ORDER BY c.customer_id;
 	"""
     df = pd.read_sql_query(query, conn)
