@@ -14,7 +14,7 @@ def etl_pandas(db_path, output_path):
                    .merge(items, on='item_id')
 
     filter_table = joined_table[(joined_table['age'].between(18, 35)) & (joined_table['quantity'].notnull())]
-    groupby_table = filter_table.groupby(['customer_id', 'age', 'item_name'])['quantity'].sum().reset_index()
+    groupby_table = filter_table.groupby(['customer_id', 'item_name'])['quantity'].sum().reset_index()
     result = groupby_table[groupby_table['quantity'] > 0]
 
     result.columns = ['Customer', 'Age', 'Item', 'Quantity']
