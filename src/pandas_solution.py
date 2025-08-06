@@ -23,4 +23,4 @@ def etl_pandas(db_path, output_path):
     conn.close()
 
 if __name__ == "__main__":
-    etl_pandas("data/sales.db", "output/customer_item_summary.csv")
+    etl_pandas("input/sales.db", "output/item_summary.csv")
