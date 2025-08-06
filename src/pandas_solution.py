@@ -5,12 +5,12 @@ def etl_pandas(db_path, output_path):
     conn = sqlite3.connect(db_path)
 
     customers = pd.read_sql("SELECT * FROM customers", conn)
+    sales = pd.read_sql("SELECT * FROM sales", conn)
     orders = pd.read_sql("SELECT * FROM orders", conn)
-    order_items = pd.read_sql("SELECT * FROM order_items", conn)
     items = pd.read_sql("SELECT * FROM items", conn)
 
-    joined_table = orders.merge(customers, on='customer_id') \
-                   .merge(order_items, on='order_id') \
+    joined_table = sales.merge(customers, on='customer_id') \
+                   .merge(orders, on='sales_id') \
                    .merge(items, on='item_id')
 
     filter_table = joined_table[(joined_table['age'].between(18, 35)) & (joined_table['quantity'].notnull())]
