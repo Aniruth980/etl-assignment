@@ -6,7 +6,7 @@ def etl_sql(db_path, output_path):
     query = """
         SELECT 
             c.customer_id AS customer,
-            c.age AS Age,
+            c.age AS age,
             i.item_name AS item,
             SUM(oi.quantity) AS quantity
         FROM customers c
